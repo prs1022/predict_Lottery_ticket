@@ -37,7 +37,7 @@ def create_data(data, name, windows):
     data = data.iloc[:, 2:].values
     logger.info("训练集数据维度: {}".format(data.shape))
     x_data, y_data = [], []
-    for i in range(len(data) - windows - 1):
+    for i in range(len(data) - windows):
         sub_data = data[i:(i+windows+1), :]
         x_data.append(sub_data[1:])
         y_data.append(sub_data[0])
@@ -58,7 +58,7 @@ def create_train_test_data(name, windows, train_test_split):
     if train_test_split < 0.5:
         raise "训练集采样比例小于50%,训练终止,请求重新采样（train_test_split>0.5）!"
     path = "{}{}".format(name_path[name]["path"], data_file_name)
-    data = pd.read_csv(path)
+    data = pd.read_csv('/Users/upuphone/python_project/predict_Lottery_ticket/data/ssq/data.csv')
     logger.info("read data from path: {}".format(path))
     train_data = create_data(data.iloc[:int(len(data) * train_test_split)], name, windows)
     test_data = create_data(data.iloc[int(len(data) * train_test_split):], name, windows)

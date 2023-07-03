@@ -22,7 +22,7 @@ name_path = {
     }
 }
 
-model_path = os.getcwd() + "/model/"
+model_path = "/Users/upuphone/python_project/predict_Lottery_ticket/model/"
 
 model_args = {
     "ssq": {
@@ -31,15 +31,15 @@ model_args = {
             "batch_size": 1,
             "sequence_len": 6,
             "red_n_class": 33,
-            "red_epochs": 1,
+            "red_epochs": 10,
             "red_embedding_size": 32,
             "red_hidden_size": 32,
-            "red_layer_size": 1,
+            "red_layer_size": 2,
             "blue_n_class": 16,
-            "blue_epochs": 1,
+            "blue_epochs": 10,
             "blue_embedding_size": 32,
             "blue_hidden_size": 32,
-            "blue_layer_size": 1
+            "blue_layer_size": 2
         },
         "train_args": {
             "red_learning_rate": 0.001,

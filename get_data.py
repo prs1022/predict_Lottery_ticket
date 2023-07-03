@@ -31,7 +31,7 @@ def get_current_number(name):
     url, _ = get_url(name)
     r = requests.get("{}{}".format(url, "history.shtml"), verify=False)
     r.encoding = "gb2312"
-    soup = BeautifulSoup(r.text, "lxml")
+    soup = BeautifulSoup(r.text, "html5lib")
     current_num = soup.find("div", class_="wrap_datachart").find("input", id="end")["value"]
     return current_num
 
@@ -48,7 +48,7 @@ def spider(name, start, end, mode):
     url = "{}{}{}".format(url, path.format(start), end)
     r = requests.get(url=url, verify=False)
     r.encoding = "gb2312"
-    soup = BeautifulSoup(r.text, "lxml")
+    soup = BeautifulSoup(r.text, "html5lib")
     trs = soup.find("tbody", attrs={"id": "tdata"}).find_all("tr")
     data = []
     for tr in trs:
@@ -58,6 +58,8 @@ def spider(name, start, end, mode):
             for i in range(6):
                 item[u"红球_{}".format(i+1)] = tr.find_all("td")[i+1].get_text().strip()
             item[u"蓝球"] = tr.find_all("td")[7].get_text().strip()
+            # item['一等奖注数'] = tr.find_all("td")[10].get_text().strip()
+            # item['一等奖金额'] = tr.find_all("td")[11].get_text().strip()
             data.append(item)
         elif name == "dlt":
             item[u"期数"] = tr.find_all("td")[0].get_text().strip()
