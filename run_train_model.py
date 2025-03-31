@@ -185,7 +185,8 @@ def train_with_eval_blue_ball_model(name, x_train, y_train, x_test, y_test):
                 embedding_size=m_args["model_args"]["blue_embedding_size"],
                 hidden_size=m_args["model_args"]["blue_hidden_size"],
                 outputs_size=m_args["model_args"]["blue_n_class"],
-                layer_size=m_args["model_args"]["blue_layer_size"]
+                layer_size=m_args["model_args"]["blue_layer_size"],
+                num_outputs=5
             )
         else:
             blue_ball_model = LstmWithCRFModel(

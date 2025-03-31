@@ -88,7 +88,7 @@ class SignalLstmModel(object):
     """ 单向lstm序列模型
     """
 
-    def __init__(self, batch_size, n_class, w_size, embedding_size, hidden_size, outputs_size, layer_size):
+    def __init__(self, batch_size, n_class, w_size, embedding_size, hidden_size, outputs_size, layer_size, num_outputs):
         self._inputs = tf.keras.layers.Input(
             shape=(w_size, ), batch_size=batch_size, dtype=tf.int32, name="inputs"
         )
@@ -100,7 +100,17 @@ class SignalLstmModel(object):
         for _ in range(layer_size):
             lstm = tf.keras.layers.LSTM(hidden_size, return_sequences=True)(lstm)
         final_lstm = tf.keras.layers.LSTM(hidden_size, recurrent_dropout=0.2)(lstm)
-        self._outputs = tf.keras.layers.Dense(outputs_size, activation="softmax")(final_lstm)
+
+        # 添加多个输出层
+        outputs = []
+        for _ in range(num_outputs):
+            dense_layer = tf.keras.layers.Dense(outputs_size, activation="softmax")(final_lstm)
+            outputs.append(dense_layer)
+
+        # 输出为一个列表，每个元素对应一个输出结果
+        self._outputs = outputs
+
+        # self._outputs = tf.keras.layers.Dense(outputs_size, activation="softmax")(final_lstm)
         # 构建损失函数
         self._loss = - tf.reduce_sum(self._tag_indices * tf.math.log(self._outputs))
         # 预测结果
